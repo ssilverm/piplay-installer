@@ -88,8 +88,16 @@ fi #end 10
 
 if [ $(echo $VERSION '<' "11" | bc -l) == 1 ]; then #START 10
 sudo apt-get update
+sudo apt-get -y install sqlite3
+cd /home/pi/pimame/emulators
+rm -rf cavestory_rpi-master fba gpsp pcsx_rearmed usp_0.0.43 dgen-sdl-1.32 fceux mednafen pisnes
 cd /home/pi/pimame/
+git pull
+git submodule init
 git submodule update --recursive
+cd /home/pi/pimame/emulators
+git submodule init
+git submodule update
 sqlite3 /home/pi/pimame/pimame-menu/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
 if grep --quiet /home/pi/pimame/file_watcher/ /home/pi/.profile; then
   echo "file watcher, ignoring."
