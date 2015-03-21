@@ -102,7 +102,7 @@ sqlite3 /home/pi/pimame/pimame-menu/config.db "update menu_items set command = '
 if grep --quiet /home/pi/pimame/file_watcher/ /home/pi/.profile; then
   echo "file watcher, ignoring."
 else
-	echo 'cd /home/pi/pimame/file_watcher/watch.py --delay 60 --path /home/pi/pimame/roms/ &' >> /home/pi/.profile
+	echo 'python /home/pi/pimame/file_watcher/watch.py --delay 60 --path /home/pi/pimame/roms/ &' >> /home/pi/.profile
 fi
 
 
