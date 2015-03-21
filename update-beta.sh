@@ -91,8 +91,14 @@ sudo apt-get update
 cd /home/pi/pimame/
 git submodule update --recursive
 sqlite3 /home/pi/pimame/pimame-menu/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
+if grep --quiet /home/pi/pimame/file_watcher/ /home/pi/.profile; then
+  echo "file watcher, ignoring."
+else
+	echo 'cd /home/pi/pimame/file_watcher/watch.py --delay 60 --path /home/pi/pimame/roms/ &' >> /home/pi/.profile
+fi
 
-fi #end 11
+
+fi #end 10
 
 
 echo "You are now updated. Please restart to activate PiMAME :)"
