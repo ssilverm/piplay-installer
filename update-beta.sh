@@ -86,7 +86,7 @@ mkdir /home/pi/pimame/roms/zxspectrum
 sudo pip install flask pyyaml flask-sqlalchemy flask-admin
 fi #end 10
 
-if [ $(echo $VERSION '<' "11" | bc -l) == 1 ]; then #START 10
+if [ $(echo $VERSION '<' "11" | bc -l) == 1 ]; then #START 11
 sudo apt-get update
 sudo apt-get -y install sqlite3
 cd /home/pi/pimame/emulators
@@ -98,7 +98,7 @@ git submodule update --recursive
 cd /home/pi/pimame/emulators
 git submodule init
 git submodule update
-sqlite3 /home/pi/pimame/pimame-menu/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
+sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
 if grep --quiet /home/pi/pimame/file_watcher/ /home/pi/.profile; then
   echo "file watcher, ignoring."
 else
@@ -106,7 +106,7 @@ else
 fi
 
 
-fi #end 10
+fi #end 11
 
 
 echo "You are now updated. Please restart to activate PiMAME :)"
