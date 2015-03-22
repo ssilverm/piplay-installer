@@ -9,12 +9,13 @@ echo "Starting Install..."
 sudo apt-get clean
 sudo apt-get update
 sudo apt-get -y install vsftpd xboxdrv stella python-pip python-requests python-levenshtein libsdl1.2-dev bc gunicorn sqlite3
+cd /home/pi/
 git clone https://github.com/ssilverm/pimame-8 pimame
 cd pimame
 
 git submodule init
 git submodule update
-sudo pip install flask pyyaml flask-sqlalchemy flask-admin
+sudo pip install flask pyyaml flask-sqlalchemy flask-admin watchdog
 cp -r config/.advance/ ~/
 sudo cp config/vsftpd.conf /etc/
 sudo cp config/inittab /etc/
@@ -23,7 +24,7 @@ wget http://sheasilverman.com/rpi/raspbian/8/sdl2_2.0.1-1_armhf.deb
 sudo dpkg --force-overwrite -i sdl2_2.0.1-1_armhf.deb
 rm sdl2_2.0.1-1_armhf.deb
 
-cd /home/pimame/emulators
+cd /home/pi/pimame/emulators
 git submodule init
 git submodule update
 
@@ -51,7 +52,7 @@ cd /home/pi/pimame/pimame-web-frontend/; sudo gunicorn --timeout 500 --log-level
 if grep --quiet /home/pi/pimame/file_watcher/ /home/pi/.profile; then
   echo "menu already exists, ignoring."
 else
-	echo 'cd /home/pi/pimame/file_watcher/watch.py --delay 60 --path /home/pi/pimame/roms/ &' >> /home/pi/.profile
+	echo 'python /home/pi/pimame/file_watcher/watch.py --delay 60 --path /home/pi/pimame/roms/ &' >> /home/pi/.profile
 fi
 
 if grep --quiet /home/pi/pimame/pimame-menu /home/pi/.profile; then
@@ -65,5 +66,6 @@ fi
 
 echo 'fi' >> /home/pi/.profile
 
-
+sudo apt-get -y install sqlite3
+sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
 echo "Please restart to activate PiMAME :)"
