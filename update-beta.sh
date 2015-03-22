@@ -100,6 +100,8 @@ cd /home/pi/pimame/emulators
 git submodule init
 git submodule update
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
+sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = 'python /home/pi/pimame/pimame-menu/scraper/scrape_script.py --ask True' where label = 'SCRAPER'"
+
 if grep --quiet /home/pi/pimame/file_watcher/ /home/pi/.profile; then
   echo "file watcher, ignoring."
 else
