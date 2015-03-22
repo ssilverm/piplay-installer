@@ -68,4 +68,6 @@ echo 'fi' >> /home/pi/.profile
 
 sudo apt-get -y install sqlite3
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
+sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = 'python /home/pi/pimame/pimame-menu/scraper/scrape_script.py --ask True' where label = 'SCRAPER'"
+
 echo "Please restart to activate PiMAME :)"
