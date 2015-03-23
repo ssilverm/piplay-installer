@@ -88,7 +88,18 @@ fi #end 10
 
 if [ $(echo $VERSION '<' "11" | bc -l) == 1 ]; then #START 11
 sudo apt-get update
-sudo apt-get -y install sqlite3
+sudo apt-get -y install sqlite3 supervisor
+sudo cp /home/pi/pimame/supervisor_scripts/file_watcher.conf /etc/supervisor/conf.d/file_watcher.conf
+sudo cp /home/pi/pimame/supervisor_scripts/gunicorn.conf /etc/supervisor/conf.d/gunicorn.conf
+sudo cp /home/pi/pimame/supervisor_scripts/pimame_menu.conf /etc/supervisor/conf.d/pimame_menu.conf
+sudo supervisorctl reload
+
+LINE=$(grep -n  "DISPLAY" .profile | cut -f 1 -d ':')
+LINE=$((LINE=LINE+5))
+sed -e "${LINE},${LASTLINE}d" /home/pi/.profile > /home/pi/profile.tmp && mv /home/pi/profile.tmp /home/pi/.profile
+
+
+
 sudo pip install watchdog
 cd /home/pi/pimame/emulators
 rm -rf cavestory_rpi-master fba gpsp pcsx_rearmed usp_0.0.43 dgen-sdl-1.32 fceux mednafen pisnes
@@ -96,6 +107,7 @@ cd /home/pi/pimame/
 git pull
 git submodule init
 git submodule update --recursive
+
 cd /home/pi/pimame/emulators
 git submodule init
 git submodule update
