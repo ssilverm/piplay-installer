@@ -64,7 +64,7 @@ rm -rf vice_2.3.21-1_armhf.deb
 
 #echo 'fi' >> /home/pi/.profile
 
-sudo apt-get install supervisor
+sudo apt-get -y install supervisor
 sudo cp /home/pi/pimame/supervisor_scripts/file_watcher.conf /etc/supervisor/conf.d/file_watcher.conf
 sudo cp /home/pi/pimame/supervisor_scripts/gunicorn.conf /etc/supervisor/conf.d/gunicorn.conf
 sudo cp /home/pi/pimame/supervisor_scripts/pimame_menu.conf /etc/supervisor/conf.d/pimame_menu.conf
@@ -73,5 +73,7 @@ sudo supervisorctl reload
 sudo apt-get -y install sqlite3
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = 'python /home/pi/pimame/pimame-menu/scraper/scrape_script.py --ask True' where label = 'SCRAPER'"
+sqlite3 /home/pi/pimame/pimame-menu/database/config.db "ALTER TABLE options ADD COLUMN roms_added INT DEFAULT 0"
+
 
 echo "Please restart to activate PiMAME :)"

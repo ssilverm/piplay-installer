@@ -111,14 +111,12 @@ git submodule update --recursive
 cd /home/pi/pimame/emulators
 git submodule init
 git submodule update
+
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = 'python /home/pi/pimame/pimame-menu/scraper/scrape_script.py --ask True' where label = 'SCRAPER'"
+sqlite3 /home/pi/pimame/pimame-menu/database/config.db "ALTER TABLE options ADD COLUMN roms_added INT DEFAULT 0"
 
-if grep --quiet /home/pi/pimame/file_watcher/ /home/pi/.profile; then
-  echo "file watcher, ignoring."
-else
-	echo 'python /home/pi/pimame/file_watcher/watch.py --delay 60 --path /home/pi/pimame/roms/ &' >> /home/pi/.profile
-fi
+
 
 
 fi #end 11
