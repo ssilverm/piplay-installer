@@ -106,7 +106,7 @@ else
         echo 'cd /home/pi/pimame/pimame-menu/' >> /home/pi/.profile
         echo 'python launchmenu.py' >> /home/pi/.profile
 fi
-
+echo 'fi' >> /home/pi/.profile
 
 
 sudo pip install watchdog
