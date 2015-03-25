@@ -95,7 +95,7 @@ sudo cp /home/pi/pimame/supervisor_scripts/gunicorn.conf /etc/supervisor/conf.d/
 sudo supervisorctl reload
 
 LINE=$(grep -n  "DISPLAY" .profile | cut -f 1 -d ':')
-LINE=$((LINE=LINE+5))
+LASTLINE=$((LINE+5))
 sed -e "${LINE},${LASTLINE}d" /home/pi/.profile > /home/pi/profile.tmp && mv /home/pi/profile.tmp /home/pi/.profile
 
 echo 'if [ "$DISPLAY" == "" ] && [ "$SSH_CLIENT" == "" ] && [ "$SSH_TTY" == "" ]; then' >> /home/pi/.profile
