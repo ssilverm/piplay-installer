@@ -40,40 +40,27 @@ rm -rf vice_2.3.21-1_armhf.deb
 
 
 
-#echo 'if [ "$DISPLAY" == "" ] && [ "$SSH_CLIENT" == "" ] && [ "$SSH_TTY" == "" ]; then' >> /home/pi/.profile
+echo 'if [ "$DISPLAY" == "" ] && [ "$SSH_CLIENT" == "" ] && [ "$SSH_TTY" == "" ]; then' >> /home/pi/.profile
 
-#if grep --quiet /home/pi/pimame/pimame-web-frontend /home/pi/.profile; then
-#  echo "website already exists, ignoring."
-#else
-#	echo 'cd /home/pi/pimame/pimame-web-frontend/; sudo gunicorn app:app -b 0.0.0.0:80 &' >> /home/pi/.profile
-#fi
-#cd /home/pi/pimame/pimame-web-frontend/; sudo gunicorn --timeout 500 --log-level=debug  app:app -b 0.0.0.0:80 &
+if grep --quiet /home/pi/pimame/pimame-menu /home/pi/.profile; then
+  echo "menu already exists, ignoring."
+else
+	echo 'cd /home/pi/pimame/pimame-menu/' >> /home/pi/.profile
+	echo 'python launchmenu.py' >> /home/pi/.profile
+fi
 
-#if grep --quiet /home/pi/pimame/file_watcher/ /home/pi/.profile; then
-#  echo "menu already exists, ignoring."
-#else
-#	echo 'python /home/pi/pimame/file_watcher/watch.py --delay 60 --path /home/pi/pimame/roms/ &' >> /home/pi/.profile
-#fi
-
-#if grep --quiet /home/pi/pimame/pimame-menu /home/pi/.profile; then
-#  echo "menu already exists, ignoring."
-#else
-#	echo 'cd /home/pi/pimame/pimame-menu/' >> /home/pi/.profile
-#	echo 'python launchmenu.py' >> /home/pi/.profile
-#fi
-
-#echo 'fi' >> /home/pi/.profile
+echo 'fi' >> /home/pi/.profile
 
 sudo apt-get -y install supervisor
 sudo cp /home/pi/pimame/supervisor_scripts/file_watcher.conf /etc/supervisor/conf.d/file_watcher.conf
 sudo cp /home/pi/pimame/supervisor_scripts/gunicorn.conf /etc/supervisor/conf.d/gunicorn.conf
-sudo cp /home/pi/pimame/supervisor_scripts/pimame_menu.conf /etc/supervisor/conf.d/pimame_menu.conf
+#sudo cp /home/pi/pimame/supervisor_scripts/pimame_menu.conf /etc/supervisor/conf.d/pimame_menu.conf
 sudo supervisorctl reload
 
 sudo apt-get -y install sqlite3
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = 'python /home/pi/pimame/pimame-menu/scraper/scrape_script.py --ask True' where label = 'SCRAPER'"
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "ALTER TABLE options ADD COLUMN roms_added INT DEFAULT 0"
-
+sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = 'cd /home/pi/pimame/emulators/pcsx_rearmed && ./pcsx' WHERE label = 'Playstation 1'" 
 
 echo "Please restart to activate PiMAME :)"

@@ -91,12 +91,21 @@ sudo apt-get update
 sudo apt-get -y install sqlite3 supervisor
 sudo cp /home/pi/pimame/supervisor_scripts/file_watcher.conf /etc/supervisor/conf.d/file_watcher.conf
 sudo cp /home/pi/pimame/supervisor_scripts/gunicorn.conf /etc/supervisor/conf.d/gunicorn.conf
-sudo cp /home/pi/pimame/supervisor_scripts/pimame_menu.conf /etc/supervisor/conf.d/pimame_menu.conf
+#sudo cp /home/pi/pimame/supervisor_scripts/pimame_menu.conf /etc/supervisor/conf.d/pimame_menu.conf
 sudo supervisorctl reload
 
 LINE=$(grep -n  "DISPLAY" .profile | cut -f 1 -d ':')
 LINE=$((LINE=LINE+5))
 sed -e "${LINE},${LASTLINE}d" /home/pi/.profile > /home/pi/profile.tmp && mv /home/pi/profile.tmp /home/pi/.profile
+
+echo 'if [ "$DISPLAY" == "" ] && [ "$SSH_CLIENT" == "" ] && [ "$SSH_TTY" == "" ]; then' >> /home/pi/.profile
+
+if grep --quiet /home/pi/pimame/pimame-menu /home/pi/.profile; then
+  echo "menu already exists, ignoring."
+else
+        echo 'cd /home/pi/pimame/pimame-menu/' >> /home/pi/.profile
+        echo 'python launchmenu.py' >> /home/pi/.profile
+fi
 
 
 
@@ -115,7 +124,7 @@ git submodule update
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = 'python /home/pi/pimame/pimame-menu/scraper/scrape_script.py --ask True' where label = 'SCRAPER'"
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "ALTER TABLE options ADD COLUMN roms_added INT DEFAULT 0"
-
+sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = 'cd /home/pi/pimame/emulators/pcsx_rearmed && ./pcsx' WHERE label = 'Playstation 1'" 
 
 
 
