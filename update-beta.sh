@@ -88,6 +88,10 @@ fi #end 10
 
 if [ $(echo $VERSION '<' "11" | bc -l) == 1 ]; then #START 11
 echo "Now at 11 function"
+
+cd /home/pi/pimame/emulators
+rm -rf cavestory_rpi-master fba gpsp pcsx_rearmed usp_0.0.43 dgen-sdl-1.32 fceux mednafen pisnes
+
 cd /home/pi/pimame/
 git pull
 git submodule init
@@ -116,8 +120,7 @@ echo 'fi' >> /home/pi/.profile
 
 
 sudo pip install watchdog
-cd /home/pi/pimame/emulators
-rm -rf cavestory_rpi-master fba gpsp pcsx_rearmed usp_0.0.43 dgen-sdl-1.32 fceux mednafen pisnes
+
 
 
 cd /home/pi/pimame/emulators
