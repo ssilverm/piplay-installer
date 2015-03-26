@@ -61,6 +61,6 @@ sudo apt-get -y install sqlite3
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = '/home/pi/pimame/emulators/scummvm/scummvm' where label = 'SCUMMVM'"
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = 'python /home/pi/pimame/pimame-menu/scraper/scrape_script.py --ask True' where label = 'SCRAPER'"
 sqlite3 /home/pi/pimame/pimame-menu/database/config.db "ALTER TABLE options ADD COLUMN roms_added INT DEFAULT 0"
-sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = 'cd /home/pi/pimame/emulators/pcsx_rearmed && ./run_pcsx' WHERE label = 'Playstation 1'" 
+sqlite3 /home/pi/pimame/pimame-menu/database/config.db "update menu_items set command = 'cd /home/pi/pimame/emulators/pcsx_rearmed && ./run_pcsx.sh' WHERE label = 'Playstation 1'" 
 
 echo "Please restart to activate PiMAME :)"
