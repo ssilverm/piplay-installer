@@ -104,7 +104,7 @@ sudo cp /home/pi/pimame/supervisor_scripts/gunicorn.conf /etc/supervisor/conf.d/
 #sudo cp /home/pi/pimame/supervisor_scripts/pimame_menu.conf /etc/supervisor/conf.d/pimame_menu.conf
 sudo supervisorctl reload
 
-LINE=$(grep -n  "DISPLAY" .profile | cut -f 1 -d ':')
+LINE=$(grep -n  "DISPLAY" /home/pi/.profile | cut -f 1 -d ':')
 LASTLINE=$((LINE+5))
 sed -e "${LINE},${LASTLINE}d" /home/pi/.profile > /home/pi/profile.tmp && mv /home/pi/profile.tmp /home/pi/.profile
 
