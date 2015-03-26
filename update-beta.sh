@@ -87,6 +87,7 @@ sudo pip install flask pyyaml flask-sqlalchemy flask-admin
 fi #end 10
 
 if [ $(echo $VERSION '<' "11" | bc -l) == 1 ]; then #START 11
+echo "Now at 11 function"
 cd /home/pi/pimame/
 git pull
 git submodule init
