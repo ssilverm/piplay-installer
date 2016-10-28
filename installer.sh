@@ -8,7 +8,7 @@ echo "Starting Install..."
 
 sudo apt-get clean
 sudo apt-get update
-sudo apt-get -y install vsftpd xboxdrv stella python-pip python-requests python-levenshtein libsdl1.2-dev bc gunicorn sqlite3
+sudo apt-get -y install vsftpd xboxdrv stella python-pip python-requests python-levenshtein libsdl1.2-dev bc gunicorn sqlite3 python-pygame
 cd /home/pi/
 git clone https://github.com/ssilverm/pimame-8 pimame
 cd pimame
